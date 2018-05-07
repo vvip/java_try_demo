@@ -62,6 +62,7 @@ public class SaveProxy
     {
         String insert = "INSERT INTO proxy_origin (host, port, type, anonymity, origin, speed) VALUES (?, ?, ?, ?, ?, ?)  ON DUPLICATE KEY UPDATE anonymity=?, origin=?, speed=?, update_time=now()";
         try (Connection connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/java_spider", "root", null))
+        // 密码是没发连接上的，因为网络不通
         //try (Connection connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/java_spider", "root", "3389!@Asdb"))
         {
             // create a Statement
