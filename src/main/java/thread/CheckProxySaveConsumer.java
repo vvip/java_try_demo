@@ -28,7 +28,7 @@ public class CheckProxySaveConsumer implements Runnable
     {
         System.out.println("Start Thread: CheckProxySaveConsumer");
 
-        String insert = "INSERT INTO proxy_check (host, port, type, anonymity, origin, speed, speed_target_size, speed_http_site, speed_https_site, check_time)" +
+        String insert = "INSERT INTO proxy_check (host, port, type, anonymity, origin, speed, target_site, speed_http_site, speed_https_site, check_time)" +
             " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  ON DUPLICATE KEY UPDATE anonymity=?, origin=?, speed=?, speed_http_site=?, speed_https_site=?, check_time=?, update_time=now()";
         //try (Connection connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/java_spider", "root", null))
         try (Connection connection = DriverManager.getConnection("jdbc:mariadb://" + CommonConstant.MYSQL_HOST
@@ -40,12 +40,12 @@ public class CheckProxySaveConsumer implements Runnable
             try (PreparedStatement preparedStatement = connection.prepareStatement(insert))
             {
                 // 直到待检查的队列为空才退出
-                int count = 0; // count计数为10，然后退出
+                int times = 0; // count计数为10，然后退出
                 do
                 {
                     if (!blockingQueueCheck.isEmpty())
                     {
-                        count = 0;
+                        times = 0;
                         CheckProxyVo checkProxyVo = null;
                         try
                         {
@@ -61,7 +61,7 @@ public class CheckProxySaveConsumer implements Runnable
                         preparedStatement.setString(4, checkProxyVo.getAnonymity());
                         preparedStatement.setString(5, checkProxyVo.getOrigin());
                         preparedStatement.setDouble(6, checkProxyVo.getSpeed());
-                        preparedStatement.setString(7, checkProxyVo.getSpeedTargetSite());
+                        preparedStatement.setString(7, checkProxyVo.getTargetSite());
                         preparedStatement.setDouble(8, checkProxyVo.getSpeedHttpSite());
                         preparedStatement.setDouble(9, checkProxyVo.getSpeedHttpsSite());
                         preparedStatement.setTimestamp(10, checkProxyVo.getCheckTime());
@@ -79,7 +79,7 @@ public class CheckProxySaveConsumer implements Runnable
                     //preparedStatement.executeBatch();
                     else
                     {
-                        count++;
+                        times++;
                         // 如果待插入检查结果的队列为空，则休眠10秒钟
                         try
                         {
@@ -91,7 +91,7 @@ public class CheckProxySaveConsumer implements Runnable
                         }
                     }
                 }
-                while (!blockingQueueOrigin.isEmpty() || !blockingQueueCheck.isEmpty() || (count < 10));
+                while (!blockingQueueOrigin.isEmpty() || !blockingQueueCheck.isEmpty() || (times < 10));
                 System.out.println("CheckProxySaveConsumer Over! All Count: " + count);
                 /*
                 if (blockingQueueCheck.isEmpty())
