@@ -91,7 +91,7 @@ public class CheckProxySaveConsumer implements Runnable
                         }
                     }
                 }
-                while (!blockingQueueOrigin.isEmpty() || !blockingQueueCheck.isEmpty() || (times < 10));
+                while (!blockingQueueOrigin.isEmpty() || !blockingQueueCheck.isEmpty() || (times < 1000));
                 System.out.println("CheckProxySaveConsumer Over! All Count: " + count);
                 /*
                 if (blockingQueueCheck.isEmpty())
