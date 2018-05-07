@@ -8,7 +8,9 @@ import vo.ProxyVo;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -35,28 +37,36 @@ public class CheckProxyMain
         int threadNum = Integer.parseInt(args[2]);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
+        // 生产者： 把需要检查的代理IP地址列表加入线程
         CheckProxyProducer checkProxyProducer = new CheckProxyProducer(blockingQueueOrigin);
         Thread threadProxyProducer = new Thread(checkProxyProducer);
         threadProxyProducer.start();
         Thread.sleep(2000);
 
+        // 消费者-生产正： 把队列中的待检查IP列表消费掉，并加入待存入DB的数据库
+        List<Thread> threadListCheckProxy = new ArrayList<>(threadNum);
         for (int i = 0; i < threadNum; i++)
         {
-            new Thread(new CheckProxyConsumer(blockingQueueOrigin, blockingQueueCheck, i, args[0], args[1], timestamp)).start();
+            Thread thread = new Thread(new CheckProxyConsumer(blockingQueueOrigin, blockingQueueCheck, i, args[0], args[1], timestamp));
+            thread.start();
+            threadListCheckProxy.add(thread);
         }
 
         Thread.sleep(2000);
         CheckProxySaveConsumer checkProxySaveConsumer = new CheckProxySaveConsumer(blockingQueueOrigin, blockingQueueCheck);
-        new Thread(checkProxySaveConsumer).start();
+        Thread threadProxySaveConsumer = new Thread(checkProxySaveConsumer);
+        threadProxySaveConsumer.start();
 
         // 生产者：保存已经检查完毕的数据
 
         while (true)
         {
+            int aliveThreadCnt = disPlayStateAndIsAlive(threadProxyProducer, threadProxySaveConsumer, threadListCheckProxy);
+
             if (blockingQueueOrigin.isEmpty() && blockingQueueCheck.isEmpty())
             {
                 Thread.sleep(50000);
-                if (blockingQueueCheck.isEmpty())
+                if (blockingQueueCheck.isEmpty() && aliveThreadCnt == 0)
                 {
                     date = new Date();
                     System.out.println("Check Proxy End Time: " + dateFormat.format(date));
@@ -65,9 +75,62 @@ public class CheckProxyMain
             }
             else
             {
-                Thread.sleep(1000);
+                Thread.sleep(5000);
             }
         }
+    }
 
+    private static int disPlayStateAndIsAlive(Thread threadProxyProducer, Thread threadProxySaveConsumer, List<Thread> threadListCheckProxy)
+    {//《Java并发10:线程的状态Thread.State及其线程状态之间的转换》
+        int threadAlive = 0;
+        int threadDeath = 0;
+        int threadNew = 0;
+        int threadRUNNABLE = 0;
+        int threadBLOCKED = 0;
+        int threadWAITING = 0;
+        int threadTIMED_WAITING = 0;
+        int threadTERMINATED = 0;
+        if (threadProxyProducer.isAlive())
+        {
+            System.out.println("threadProxyProducer State: " + threadProxyProducer.getState()
+                + ", Is Alive: " + threadProxyProducer.isAlive());
+        }
+        if (threadProxySaveConsumer.isAlive())
+        {
+            System.out.println("threadProxySaveConsumer State: " + threadProxySaveConsumer.getState()
+                + ", Is Alive: " + threadProxySaveConsumer.isAlive());
+        }
+
+        //int count = 0;
+        for (Thread thread : threadListCheckProxy)
+        {
+            //count++;
+            //System.out.println("Thread "+count+" Status: " + thread.getState() + ", Is Alive: " + thread.isAlive());
+            if (thread.isAlive())
+            {
+                threadAlive++;
+            }
+            else
+            {
+                threadDeath++;
+            }
+            Thread.State threadState = thread.getState();
+            if (threadState.equals(Thread.State.NEW))
+                threadNew++;
+            if (threadState.equals(Thread.State.RUNNABLE))
+                threadRUNNABLE++;
+            if (threadState.equals(Thread.State.BLOCKED))
+                threadBLOCKED++;
+            if (threadState.equals(Thread.State.WAITING))
+                threadWAITING++;
+            if (threadState.equals(Thread.State.TIMED_WAITING))
+                threadTIMED_WAITING++;
+            if (threadState.equals(Thread.State.TERMINATED))
+                threadTERMINATED++;
+        }
+        System.out.println(threadListCheckProxy.size() + " size Thread List, Alive: " + threadAlive + "; Death: " + threadDeath + ".");
+        System.out.println("Thread List, NEW: " + threadNew + "; RUNNABLE: " + threadRUNNABLE + "; BLOCKED: " + threadBLOCKED
+            + "; WAITING: " + threadWAITING + "; TIMED_WAITING: " + threadTIMED_WAITING + "; TERMINATED: " + threadTERMINATED);
+        return threadAlive;
     }
 }

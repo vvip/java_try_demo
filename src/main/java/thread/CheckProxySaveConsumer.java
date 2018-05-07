@@ -88,13 +88,14 @@ public class CheckProxySaveConsumer implements Runnable
                 }
                 while  (!blockingQueueOrigin.isEmpty() || !blockingQueueCheck.isEmpty());
                 System.out.println("CheckProxySaveConsumer Over! All Count: " + count);
+                /*
                 if (blockingQueueCheck.isEmpty())
                 {
                     Date date = new Date();
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                     System.out.println("Check Proxy End Time - CheckProxySaveConsumer: " + dateFormat.format(date));
                     System.exit(1);
-                }
+                }*/
             }
         }
         catch (SQLException e)
