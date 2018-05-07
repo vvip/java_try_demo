@@ -57,16 +57,17 @@ public class CheckProxyMain
         Thread threadProxySaveConsumer = new Thread(checkProxySaveConsumer);
         threadProxySaveConsumer.start();
 
-        // 生产者：保存已经检查完毕的数据
-
+        // times 用来强制退出的超时控制
+        int times = 0;
         while (true)
         {
             int aliveThreadCnt = disPlayStateAndIsAlive(threadProxyProducer, threadProxySaveConsumer, threadListCheckProxy);
 
             if (blockingQueueOrigin.isEmpty() && blockingQueueCheck.isEmpty())
             {
-                Thread.sleep(50000);
-                if (blockingQueueCheck.isEmpty() && aliveThreadCnt == 0)
+                times++;
+                Thread.sleep(5000);
+                if (blockingQueueCheck.isEmpty() && (aliveThreadCnt == 0 || times >= 60))
                 {
                     date = new Date();
                     System.out.println("Check Proxy End Time: " + dateFormat.format(date));
