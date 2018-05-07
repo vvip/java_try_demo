@@ -57,5 +57,6 @@ public class CheckProxyConsumer implements Runnable
             }
             System.out.printf("Thread - %3d || blockingQueueOrigin size: %4d ||  Consumer: %s%n", threadNum, blockingQueueOrigin.size(), checkProxyVo.toString());
         }
+        System.out.printf("End Thread: CheckProxyConsumer - %3d", threadNum);
     }
 }

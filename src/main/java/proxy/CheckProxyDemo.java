@@ -1,5 +1,6 @@
 package proxy;
 
+import constants.CommonConstant;
 import vo.ProxyVo;
 
 import java.sql.Connection;
@@ -54,7 +55,9 @@ public class CheckProxyDemo
         public void run()
         {
             String query = "select host, port, type, anonymity, origin, speed, create_time from proxy_origin where deleted = false";
-            try (Connection connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/java_spider", "root", ""))
+            try (Connection connection = DriverManager.getConnection("jdbc:mariadb://" + CommonConstant.MYSQL_HOST
+                    + ":" + CommonConstant.MYSQL_PORT + "/" + CommonConstant.MYSQL_DATABASE,
+                CommonConstant.MYSQL_USER, CommonConstant.MYSQL_PASS))
             {
                 try (Statement statement = connection.createStatement())
                 {

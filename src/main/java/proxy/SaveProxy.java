@@ -1,5 +1,6 @@
 package proxy;
 
+import constants.CommonConstant;
 import org.json.JSONObject;
 import vo.ProxyVo;
 
@@ -61,7 +62,9 @@ public class SaveProxy
     private static void saveProxyVoList(List<ProxyVo> proxyVoList)
     {
         String insert = "INSERT INTO proxy_origin (host, port, type, anonymity, origin, speed) VALUES (?, ?, ?, ?, ?, ?)  ON DUPLICATE KEY UPDATE anonymity=?, origin=?, speed=?, update_time=now()";
-        try (Connection connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/java_spider", "root", null))
+        try (Connection connection = DriverManager.getConnection("jdbc:mariadb://" + CommonConstant.MYSQL_HOST
+                + ":" + CommonConstant.MYSQL_PORT + "/" + CommonConstant.MYSQL_DATABASE,
+            CommonConstant.MYSQL_USER, CommonConstant.MYSQL_PASS))
         // 密码是没发连接上的，因为网络不通
         //try (Connection connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/java_spider", "root", "3389!@Asdb"))
         {

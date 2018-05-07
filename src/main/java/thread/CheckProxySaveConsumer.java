@@ -1,5 +1,6 @@
 package thread;
 
+import constants.CommonConstant;
 import vo.CheckProxyVo;
 import vo.ProxyVo;
 
@@ -32,7 +33,9 @@ public class CheckProxySaveConsumer implements Runnable
         String insert = "INSERT INTO proxy_check (host, port, type, anonymity, origin, speed, speed_http_site, speed_https_site, check_time)" +
             " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)  ON DUPLICATE KEY UPDATE anonymity=?, origin=?, speed=?, speed_http_site=?, speed_https_site=?, check_time=?, update_time=now()";
         //try (Connection connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/java_spider", "root", null))
-        try (Connection connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/java_spider", "root", ""))
+        try (Connection connection = DriverManager.getConnection("jdbc:mariadb://" + CommonConstant.MYSQL_HOST
+                + ":" + CommonConstant.MYSQL_PORT + "/" + CommonConstant.MYSQL_DATABASE,
+            CommonConstant.MYSQL_USER, CommonConstant.MYSQL_PASS))
         {
             // create a Statement
 
@@ -86,7 +89,7 @@ public class CheckProxySaveConsumer implements Runnable
                         }
                     }
                 }
-                while  (!blockingQueueOrigin.isEmpty() || !blockingQueueCheck.isEmpty());
+                while (!blockingQueueOrigin.isEmpty() || !blockingQueueCheck.isEmpty());
                 System.out.println("CheckProxySaveConsumer Over! All Count: " + count);
                 /*
                 if (blockingQueueCheck.isEmpty())
