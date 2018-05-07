@@ -49,6 +49,7 @@ public class CheckProxy
         //proxyVo.setType("https");
         //float speedHttpsSite = checkProxyBySite();
         checkProxyVo.setSpeedHttpSite(speedHttpSite);
+        checkProxyVo.setSpeedTargetSite(this.checkSite);
         //checkProxyVo.setSpeedHttpsSite(speedHttpsSite);
         return checkProxyVo;
     }

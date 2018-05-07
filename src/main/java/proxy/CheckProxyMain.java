@@ -27,8 +27,8 @@ public class CheckProxyMain
         if (args.length < 3)
         {
             System.out.println("Args Error!");
-            System.out.println("java -jar xxxx.jar http://www.baidu.com/ baidu.min.css threadNum");
-            System.out.println("java -jar xxxx.jar http://www.baidu.com/ baidu.min.css 100");
+            System.out.println("    java -jar xxxx.jar targetSite respContent threadNum");
+            System.out.println("eg: java -jar xxxx.jar http://www.baidu.com/ baidu.min.css 100");
             System.exit(0);
         }
         System.out.println("Target Site: " + args[0]);
@@ -131,6 +131,8 @@ public class CheckProxyMain
         System.out.println(threadListCheckProxy.size() + " size Thread List, Alive: " + threadAlive + "; Death: " + threadDeath + ".");
         System.out.println("Thread List, NEW: " + threadNew + "; RUNNABLE: " + threadRUNNABLE + "; BLOCKED: " + threadBLOCKED
             + "; WAITING: " + threadWAITING + "; TIMED_WAITING: " + threadTIMED_WAITING + "; TERMINATED: " + threadTERMINATED);
+        System.out.println("blockingQueueOrigin size: " + blockingQueueOrigin.size()
+            + ";  blockingQueueCheck size: " + blockingQueueCheck.size());
         return threadAlive;
     }
 }

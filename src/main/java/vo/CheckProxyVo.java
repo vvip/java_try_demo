@@ -7,6 +7,8 @@ public class CheckProxyVo extends ProxyVo
 {
     private Timestamp checkTime;
 
+    private String speedTargetSite;
+
     private float speedHttpSite;
 
     private float speedHttpsSite;
@@ -29,6 +31,21 @@ public class CheckProxyVo extends ProxyVo
     public Timestamp getCheckTime()
     {
         return checkTime;
+    }
+
+    public void setCheckTime(Timestamp checkTime)
+    {
+        this.checkTime = checkTime;
+    }
+
+    public String getSpeedTargetSite()
+    {
+        return speedTargetSite;
+    }
+
+    public void setSpeedTargetSite(String speedTargetSite)
+    {
+        this.speedTargetSite = speedTargetSite;
     }
 
     public float getSpeedHttpSite()
