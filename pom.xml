@@ -23,7 +23,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>java.QcloudSms</mainClass>
+                            <mainClass>java.qcloudsms.QcloudSms</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

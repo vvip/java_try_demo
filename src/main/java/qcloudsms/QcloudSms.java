@@ -1,3 +1,5 @@
+package qcloudsms;
+
 import com.github.qcloudsms.SmsSingleSender;
 import com.github.qcloudsms.SmsSingleSenderResult;
 import com.github.qcloudsms.httpclient.HTTPException;
@@ -164,10 +166,10 @@ public class QcloudSms
         int appid = 1400086086; // 1400开头
 
         // 短信应用SDK AppKey
-        String appkey = "52bfc16a564d6c47c2b5a3052b112193";
+        String appkey = "52bfc16a564d6c47c2b5a3052b110000";
 
         // 需要发送短信的手机号码
-        String[] phoneNumbers = {"15198298038", "17302859613"};
+        String[] phoneNumbers = {"15100000038", "17300000013"};
 
         // 短信模板ID，需要在短信应用中申请
         int templateId = 112957; // NOTE: 这里的模板ID`7839`只是一个示例，真实的模板ID需要在短信控制台中申请
