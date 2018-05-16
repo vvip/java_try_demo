@@ -1,6 +1,6 @@
-#Java try repositorie! - Java练手项目
+#  Java try repositorie! - Java练手项目
 
-##将网上公布的代理IP列表存入 Mariadb
+##  将网上公布的代理IP列表存入 Mariadb
 *  _src/main/java/constants/CommonConstant.java_
     *  保存数据库连接的变量
 *  _src/main/java/proxy/CheckProxy.java_
@@ -10,7 +10,7 @@
     *  可以编译为独立运行的 jar 程序。
 
 
-##检查代理IP列表针对特定网站的有效性（多线程）
+##  检查代理IP列表针对特定网站的有效性（多线程）
 *  _src/main/java/proxy/CheckProxy.java_
     *  传入代理IP的 vo 对象、目标站点、站点返回关键字、检测时间，发起 http(s) 请求。
     *  返回代理的连通时间，如果返回999999则表示代理不可用。
@@ -28,5 +28,9 @@
     *  检查代理列表针对某一站点有效性的 Main 程序，控制调度作用
 
 
-##使用代理IP列表对限制IP投票次数的网页进行匿名投票（单线程）
+##  使用代理IP列表对限制IP投票次数的网页进行匿名投票（单线程）
+
+
+##  检查关注的小说是否在起点网站上更新，如果更新调用腾讯的 SMS 接口，短信提醒
+
 
