@@ -33,7 +33,7 @@
     *  读取 DB 中可用的代理列表，遍历使用 POST 方式提交投票
 
 
-##  检查关注的小说是否在起点网站上更新，如果更新调用腾讯的 SMS 接口，短信提醒
+##  检查关注的小说是否在网站上更新，更新调用腾讯的 SMS 接口，短信提醒
 *  _src/main/java/qcloudsms/qcloudsms.QcloudSms.java_
     *  获取 https://book.qidian.com/info/1004608738#Catalog 页面中最新的章节内容，存入本地文件
     *  定时再次访问页面获取最新章节，最新章节发生变化调用 qcloud 的短信接口，进行短信通知小说更新
