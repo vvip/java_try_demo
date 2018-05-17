@@ -1,6 +1,6 @@
 #  Java try repositorie! - Java练手项目
 
-##  一 将网上公布的代理IP列表存入 Mariadb
+##  一、将网上公布的代理IP列表存入 Mariadb
 *  _src/main/java/constants/CommonConstant.java_
     *  保存数据库连接的变量
 *  _src/main/java/proxy/CheckProxy.java_
@@ -10,7 +10,7 @@
     *  可以编译为独立运行的 jar 程序。
 
 
-##  二 检查代理IP列表针对特定网站的有效性（多线程）
+##  二、检查代理IP列表针对特定网站的有效性（多线程）
 *  _src/main/java/proxy/CheckProxy.java_
     *  传入代理IP的 vo 对象、目标站点、站点返回关键字、检测时间，发起 http(s) 请求。
     *  返回代理的连通时间，如果返回999999则表示代理不可用。
@@ -28,12 +28,12 @@
     *  检查代理列表针对某一站点有效性的 Main 程序，控制调度作用
 
 
-##  三 使用代理IP列表对限制IP投票次数的网页进行匿名投票（单线程）
+##  三、使用代理IP列表对限制IP投票次数的网页进行匿名投票（单线程）
 *  _src/main/java/vote/VoteWangshiEdu.java_
     *  读取 DB 中可用的代理列表，遍历使用 POST 方式提交投票
 
 
-##  四 检查关注的小说是否在网站上更新，更新调用腾讯的 SMS 接口，短信提醒
+##  四、检查关注的小说是否在网站上更新，更新调用腾讯的 SMS 接口，短信提醒
 *  _src/main/java/qcloudsms/qcloudsms.QcloudSms.java_
     *  获取 https://book.qidian.com/info/1004608738#Catalog 页面中最新的章节内容，存入本地文件
     *  定时再次访问页面获取最新章节，最新章节发生变化调用 qcloud 的短信接口，进行短信通知小说更新
