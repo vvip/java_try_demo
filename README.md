@@ -41,8 +41,9 @@
 
 ##  五、SSH登陆服务器 并 使用 sle4f-log4j 进行日志记录
 * _src/main/java/login/ssh/LoginSSH.java_
+    *  通过 args 参数，分别配置 服务器IP 用户名 密码 端口
+    *  登录服务器执行 ls -alh / ，然后打印返回结果
 
-
-
+##  六、Java 与 kafka 使用
 
 
