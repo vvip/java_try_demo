@@ -10,10 +10,7 @@ public class CommonConstant
     public static final String MYSQL_PORT = "3306";
     public static final String MYSQL_DATABASE = "java_spider";
     public static final String MYSQL_USER = "root";
-    //public static final String MYSQL_PASS = "";
-
-    // ssh2hw
-    public static final String MYSQL_PASS = "3389!@Asdb";
+    public static final String MYSQL_PASS = "";
 
     // 连接超时时间，单位毫秒
     public static final int CONNECT_TIMEOUT = 10000;
